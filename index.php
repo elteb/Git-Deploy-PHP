@@ -135,7 +135,7 @@ switch ($action) {
     case 'log':
 
         if (isValidUser()) {
-            exec('echo "$(git log -1 --format=medium)" 2>&1', $execResult);
+            exec('echo "$(git --git-dir ../.git log -1 --format=medium)" 2>&1', $execResult);
 
             if (! empty($execResult)) {
                 $execResult = "Latest commit deployed in this server:\n\n" . implode("\n", $execResult);
