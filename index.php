@@ -11,10 +11,9 @@
 /* CONFIG
 --------------------------------------------- */
 
-define('LOGIN_ENABLED', true);
+require_once('credentials.php');
 
-define('USER', 'deploy');
-define('PASS', 'deploy123');
+define('LOGIN_ENABLED', true);
 
 define('SCRIPT_PATH_DEPLOY', 'scripts/git-local-deploy.sh');
 define('SCRIPT_PATH_STATUS', 'scripts/git-local-status.sh');
@@ -135,7 +134,7 @@ switch ($action) {
     case 'log':
 
         if (isValidUser()) {
-            exec('echo "$(git --git-dir ../.git log -1 --format=medium)" 2>&1', $execResult);
+            exec('echo "$(git --git-dir ../.git log -3 --format=medium)" 2>&1', $execResult);
 
             if (! empty($execResult)) {
                 $execResult = "Latest commit deployed in this server:\n\n" . implode("\n", $execResult);
@@ -209,40 +208,30 @@ switch ($action) {
 
             <div class="container">
                 <div class="page-header">
-                    <h1>Deploy script with Git</h1>
+                    <h1>git-deploy script</h1>
                 </div>
                 <p class="lead">
-                    Sync the files of a Git repository with the Web server
+                    Script de sincronització del codi del servidor amb el repositori Git
                 </p>
 
-                <h3>Initialize repository</h3>
-                <p>
-                    Clone your repository in the document root of your web server by running
-                    <code>git clone https://user:pass@example.com/my-repo.git</code><br/>
-                    If you want to hide the password, you can use SSH
-                </p>
-
-                <h3>Deploy the latest changes</h3>
-                <p>
-                    The script <code><?php echo SCRIPT_PATH_DEPLOY ?></code> will be executed.
-                    The files will be updated according to the following rules:
-                </p>
+                <h3>Funcionalitats</h3>
                 <ul>
-                    <li>All files in the branch being deployed will be copied to the deployment directory</li>
-                    <li>Files that were deleted in the Git repo since the last deployment will be deleted from the deployment directory</li>
-                    <li>Untracked files in the deploy directory will be left alone</li>
+                    <li><b>Run deploy</b> - Desplega la darrera gersió del codi</li>
+                    <li><b>Git status</b> - Estat de la versió local del codi</li>
+                    <li><b>Git log</b> - Missatges de registre de la versió local del codi</li>
                 </ul>
+                <hr />
                 <p>
                     <a href="<?php echo SELF_URL ?>?action=deploy" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-cloud-download"></span> Run deploy</a>
                     <a href="<?php echo SELF_URL ?>?action=status" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-list"></span> Git status</a>
                     <a href="<?php echo SELF_URL ?>?action=log" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-question-sign"></span> Git log</a>
                     <?php if (LOGIN_ENABLED): ?>
-                        <a href="<?php echo SELF_URL ?>?action=logout" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
+                        <a href="<?php echo SELF_URL ?>?action=logout" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-log-out"></span> Surt</a>
                     <?php endif ?>
                 </p>
 
                 <?php if ($result = getMsg('execResult')): ?>
-                    <h3>Output of execution</h3>
+                    <h3>Missatge d'execució</h3>
                     <pre><?php echo htmlentities($result, ENT_COMPAT, 'utf-8') ?></pre>
                 <?php endif ?>
             </div>
@@ -255,10 +244,10 @@ switch ($action) {
                         <div class="alert alert-danger"><?php echo $loginFailed ?></div>
                     <?php endif ?>
 
-                    <h2 class="form-signin-heading">Please sign in</h2>
+                    <h2 class="form-signin-heading">Formulari d'entrada</h2>
                     <input type="text" name="user" class="form-control" placeholder="Username" autofocus />
                     <input type="password" name="pass" class="form-control" placeholder="Password" />
-                    <button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-log-in"></span> Sign in</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-log-in"></span> Entra</button>
                 </form>
             </div> <!-- /container -->
 
