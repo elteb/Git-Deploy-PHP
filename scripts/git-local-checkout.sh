@@ -11,5 +11,6 @@ cd "$APPLICATION_PATH"
 # Git deploy
 
 unset GIT_DIR
-git fetch origin
-git reset --hard origin/$1
+#git fetch origin
+#git reset --hard origin/$1
+git checkout $1
