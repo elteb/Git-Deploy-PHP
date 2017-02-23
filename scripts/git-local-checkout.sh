@@ -12,4 +12,4 @@ cd "$APPLICATION_PATH"
 
 unset GIT_DIR
 git fetch origin
-git checkout -b $1 origin/$1
+git reset --hard origin/$1

@@ -147,7 +147,7 @@ switch ($action) {
   case 'checkout':
     if (isValidUser()) {
       $branch = $_POST['branch'];
-      exec(SCRIPT_PATH_STATUS . " {$branch} 2>&1", $execResult);
+      exec(SCRIPT_PATH_CHECKOUT . " {$branch} 2>&1", $execResult);
       if (! empty($execResult)) {
         $execResult = implode("\n", $execResult);
         setMsg('execResult', $execResult);
