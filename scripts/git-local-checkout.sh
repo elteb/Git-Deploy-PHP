@@ -14,3 +14,4 @@ unset GIT_DIR
 #git fetch origin
 #git reset --hard origin/$1
 git checkout $1
+git pull
